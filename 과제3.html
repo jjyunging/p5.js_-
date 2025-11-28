@@ -1,0 +1,123 @@
+// 600x400, 마우스: 입 표정 / 키: H,C,N
+// GIF 녹화 중(10초)엔 자동으로 색/목걸이/입이 변함
+
+// 색상(기초형: 개별 변수)
+let hairR=20, hairG=20, hairB=20;
+let clothR=230, clothG=210, clothB=180;
+let skinR=252, skinG=224, skinB=202;
+let showNecklace = true;
+
+let autoDemo = true;          // 녹화용 자동 데모 ON
+
+function setup() {
+  createCanvas(600, 400);
+  rectMode(CENTER);
+  frameRate(20);              // 10초 * 20fps = 200프레임
+  saveGif('myCaricature', 10);
+}
+
+function draw() {
+  background(200, 250, 240);
+  push();
+  translate(100, -30);
+
+  // === 자동 데모: 녹화 중에는 색/목걸이/입이 자동으로 바뀜 ===
+  let localMY;
+  const t = frameCount / 20.0;             // 초
+  if (autoDemo) {
+    // 입: 0.5Hz로 위아래
+    const yAnim = 280 + 8 * sin(TWO_PI * 0.5 * t);
+    localMY = map(yAnim, 265, 290, 0, height);
+
+    // 머리색: 밝기 부드럽게 왕복
+    const k = (sin(TWO_PI * 0.2 * t) + 1) * 0.5; // 0~1
+    const hL = 15, hH = 40;
+    hairR = hairG = hairB = round(lerp(hL, hH, k));
+
+    // 옷색: 3색을 2초마다 순환
+    const step = floor(t / 2) % 3;
+    if (step === 0) { clothR=230; clothG=210; clothB=180; }
+    else if (step === 1) { clothR=210; clothG=190; clothB=230; }
+    else { clothR=200; clothG=230; clothB=200; }
+
+    // 목걸이: 1Hz로 깜빡
+    showNecklace = (floor(t*2) % 2) === 0;
+  } else {
+    // 수동 모드: 마우스 Y로 표정
+    localMY = mouseY + 30; // translate 보정
+  }
+
+  // --- 캐릭터 ---
+  noStroke();
+  fill(hairR, hairG, hairB);                  // 머리
+  ellipse(200, 310, 250, 420);
+
+  fill(clothR, clothG, clothB);               // 몸통
+  rect(200, 465, 190, 220, 32);
+
+  fill(skinR, skinG, skinB);                  // 목
+  rect(200, 335, 40, 55, 10);
+
+  fill(skinR, skinG, skinB);                  // 얼굴
+  ellipse(200, 240, 180, 220);
+
+  fill(skinR, skinG, skinB);                  // 귀
+  ellipse(115, 240, 24, 24);
+  ellipse(285, 240, 24, 24);
+
+  fill(255);                                  // 눈
+  ellipse(168, 230, 34, 26);
+  ellipse(228, 230, 34, 26);
+
+  fill(0);                                    // 동공(정적)
+  ellipse(168, 230, 17, 17);
+  ellipse(228, 230, 17, 17);
+
+  fill(90, 60, 40);                           // 눈썹
+  rect(168, 200, 36, 5, 3);
+  rect(232, 200, 36, 5, 3);
+
+  fill(255, 182, 182, 140);                   // 볼터치
+  ellipse(145, 258, 22, 15);
+  ellipse(255, 258, 22, 15);
+
+  fill(240, 195, 170);                        // 코
+  ellipse(200, 247, 4, 4);
+
+  // 입: 마우스/자동데모 Y로 웃음↔찡그림
+  let mouthY = map(localMY, 0, height, 270, 290);
+  mouthY = constrain(mouthY, 265, 290);
+  fill(238, 108, 128);
+  if (localMY < height * 0.5) arc(200, mouthY, 28, 10, 0, PI, CHORD);
+  else arc(200, mouthY, 28, 10, PI, TWO_PI, CHORD);
+
+  // 목걸이
+  if (showNecklace) {
+    stroke(90, 60, 40);
+    strokeWeight(2);
+    line(184, 356, 200, 375);
+    line(216, 356, 200, 375);
+    noStroke();
+    fill(255, 92, 122);
+    ellipse(195, 383, 12, 12);
+    ellipse(205, 383, 12, 12);
+    triangle(189, 385, 211, 385, 200, 396);
+  }
+
+  pop();
+}
+
+// 수동 시연용 키: H/C/N (녹화 끝난 뒤 autoDemo=false로 써요)
+function keyPressed() {
+  if (key === 'h' || key === 'H') {
+    if (hairR === 20) { hairR=40; hairG=30; hairB=20; }
+    else if (hairR === 40) { hairR=15; hairG=15; hairB=15; }
+    else { hairR=20; hairG=20; hairB=20; }
+  }
+  if (key === 'c' || key === 'C') {
+    if (clothG === 210) { clothR=210; clothG=190; clothB=230; }
+    else if (clothG === 190) { clothR=200; clothG=230; clothB=200; }
+    else { clothR=230; clothG=210; clothB=180; }
+  }
+  if (key === 'n' || key === 'N') showNecklace = !showNecklace;
+}
