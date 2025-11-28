@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>과제 4</title>
+  <!-- p5.js 불러오기 -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  <!-- p5.js gif 저장 라이브러리 불러오기 -->
+  <script src="https://cdn.jsdelivr.net/npm/ccapture.js@1.1.0/build/CCapture.all.min.js"></script>
+</head>
+<body>
+<script>
+
+// ===== 과제 4 코드 시작 =====
+
+let petalColorA;
+let petalColorB;
+let bgColor;
+
+function setup() {
+  createCanvas(600, 400);
+
+  colorMode(RGB, 255);
+
+  petalColorA = color(255, 100, 150); 
+  petalColorB = color(255, 200, 0);  
+
+  bgColor = color(200, 230, 255);
+
+  noStroke();
+}
+
+function draw() {
+  let t = millis() / 1000.0;
+
+  if (frameCount % 60 === 0) {
+    bgColor = color(
+      random(180, 220),
+      random(210, 240),
+      random(240, 255)
+    );
+  }
+  background(bgColor);
+
+  let sway = sin(frameCount * 0.03) * 10;
+  let centerX = 300 + sway;
+  let centerY = 160;
+
+  let centerSize = 40 + sin(frameCount * 0.1) * 10;
+
+  let amt = (sin(frameCount * 0.02) + 1) / 2;
+  let petalColor = lerpColor(petalColorA, petalColorB, amt);
+
+  fill(0, 150, 0);
+  quad(
+    centerX - 5, 200,
+    centerX + 5, 200,
+    centerX + 15, 400,
+    centerX - 15, 400
+  );
+
+  fill(petalColor);
+  ellipse(centerX, centerY, 100, 60);
+  ellipse(centerX, centerY, 60, 100);
+  ellipse(centerX - 40, centerY, 80, 60);
+  ellipse(centerX + 40, centerY, 80, 60);
+
+  fill(255, 220, 0);
+  ellipse(centerX, centerY, centerSize, centerSize);
+
+  let leafOffset = cos(frameCount * 0.05) * 5;
+
+  fill(0, 180, 80);
+  triangle(
+    centerX - 40, 260 + leafOffset,
+    centerX - 100, 300 + leafOffset,
+    centerX - 20, 320 + leafOffset
+  );
+  triangle(
+    centerX + 40, 260 + leafOffset,
+    centerX + 100, 300 + leafOffset,
+    centerX + 20, 320 + leafOffset
+  );
+
+  let sunX = 80;
+  let sunY = 80;
+  let sunSize = 60 + sin(t * 2.0) * 10;
+
+  fill(255, 255, 0);
+  ellipse(sunX, sunY, sunSize, sunSize);
+
+  stroke(255, 255, 0);
+  strokeWeight(2);
+  let rayLen = 30 + 10 * sin(t * 3.0);
+
+  line(sunX, sunY - sunSize / 2, sunX, sunY - sunSize / 2 - rayLen);
+  line(sunX, sunY + sunSize / 2, sunX, sunY + sunSize / 2 + rayLen);
+  line(sunX - sunSize / 2, sunY, sunX - sunSize / 2 - rayLen, sunY);
+  line(sunX + sunSize / 2, sunY, sunX + sunSize / 2 + rayLen, sunY);
+
+  noStroke();
+}
+
+function keyPressed() {
+  if (key === 's' || key === 'S') {
+    saveGif('flower_animation', 10);
+  }
+}
+
+// ===== 과제 4 코드 끝 =====
+
+</script>
+</body>
+</html>
