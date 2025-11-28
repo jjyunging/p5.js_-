@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>p5.js 최종 과제 모음</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #f5f5f5;
+    }
+    h1 {
+      margin-bottom: 8px;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+      color: #555;
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .desc {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>p5.js 과제 모음</h1>
+  <p>과제 1~4를 1, 4 / 2, 3 순서로 배치했습니다.</p>
+
+  <div class="grid">
+    <!-- 1행: 과제1, 과제4 -->
+    <div class="card">
+      <h2>과제 1</h2>
+      <a href="과제1.html" target="_blank">과제 1 실행</a>
+      <p class="desc">정적인 꽃 그림 (quad, ellipse, triangle 사용)</p>
+    </div>
+
+    <div class="card">
+      <h2>과제 4</h2>
+      <a href="과제4.html" target="_blank">과제 4 실행</a>
+      <p class="desc">과제 1 꽃에 애니메이션(움직임·색·크기) 추가</p>
+    </div>
+
+    <!-- 2행: 과제2, 과제3 -->
+    <div class="card">
+      <h2>과제 2</h2>
+      <a href="과제2.html" target="_blank">과제 2 실행</a>
+      <p class="desc">캐릭터 정적인 캐리커처 그림</p>
+    </div>
+
+    <div class="card">
+      <h2>과제 3</h2>
+      <a href="과제3.html" target="_blank">과제 3 실행</a>
+      <p class="desc">캐릭터 애니메이션 (표정·색·목걸이 변화)</p>
+    </div>
+  </div>
+</body>
+</html>
